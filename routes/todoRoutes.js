@@ -1,6 +1,5 @@
 const { Router } = require("express")
-const todoController = require("../controllers/todoController")
-
+const todoController = require("../controllers-with-classes/todoController")
 const router = Router()
 
 router.get("/todo/list", todoController.getAllTodoLists)
