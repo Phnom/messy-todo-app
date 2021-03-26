@@ -1,11 +1,11 @@
-const todoModel = require("../models/todo")
+const todoModel = require("../models/todoModel")
 
-const getAllTodoLists = async (req, res) => {
+const getAllTodoLists = async (req, res, next) => {
   try {
     const data = await todoModel.allTodoLists()
     res.json(data)
   } catch (error) {
-    res.status(500).json({ error: "Something went wrong please try again" })
+    next(error)
   }
 }
 
@@ -19,7 +19,7 @@ const postTodoList = async (req, res) => {
     const data = await todoModel.createTodoList(title, color)
     return res.json(data)
   } catch (error) {
-    return res.json(error)
+    next(error)
   }
 }
 
@@ -33,7 +33,7 @@ const postTodo = async (req, res) => {
     const data = await todoModel.createTodo(content, todoListID)
     res.status(201).json(data)
   } catch (error) {
-    res.status(500).json(error)
+    next(error)
   }
 }
 const getTodo = async (req, res) => {
@@ -45,7 +45,7 @@ const getTodo = async (req, res) => {
     const data = await todoModel.getTodo(id)
     return res.json(data)
   } catch (error) {
-    return res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -58,7 +58,7 @@ const patchTodolist = async (req, res) => {
     await todoModel.updateTodoList(id, title, color)
     return res.json({ message: "Todo list updated" })
   } catch (error) {
-    return res.status(500).json(error)
+    next(error)
   }
 }
 
@@ -71,8 +71,8 @@ const patchTodo = async (req, res) => {
   try {
     await todoModel.updateTodo(id, content, done)
     res.json({ message: "Todo updated" })
-  } catch (err) {
-    return res.status(500).json({ error })
+  } catch (error) {
+    next(error)
   }
 }
 
@@ -84,8 +84,8 @@ const deleteTodolist = async (req, res) => {
   try {
     await todoModel.deleteTodoList(id)
     res.json({ message: "Todo list deleted" })
-  } catch {
-    return res.status(500).json({ error })
+  } catch (error) {
+    next(error)
   }
 }
 

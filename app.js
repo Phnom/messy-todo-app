@@ -2,25 +2,28 @@ require("dotenv").config()
 const express = require("express")
 const app = express()
 const PORT = process.env.PORT || 8080
-const todoRouter = require("./routers/todoRouter")
+
+// Custom routes
+const todoRoutes = require("./routes/todoRoutes")
+
+// Custom Middlewares
+const logger = require("./middleware/logger")
+const headers = require("./middleware/headers")
+const errorHandler = require("./middleware/errorHandling")
+
+// Using express json middleware
 app.use(express.json())
 
-app.use((req, res, next) => {
-  console.log(`Handling request for ${req.method} ${req.path}`)
-  next()
-})
+// express custom middlewares
+app.use(logger)
+app.use(headers)
 
-app.use((req, res, next) => {
-  if (
-    req.method == "POST" &&
-    req.headers["content-type"] != "application/json"
-  ) {
-    return res
-      .status(400)
-      .json({ error: "Missing header Content-Type: application/json" })
-  }
-  next()
-})
+// api endpoints with controllers
+app.use("/api/v1", todoRoutes)
 
-app.use("/api", todoRouter)
+// Error handler custom middleware
+console.log(errorHandler)
+app.use(errorHandler)
+
+// Start listening
 app.listen(PORT, () => console.log("Running on port " + PORT))

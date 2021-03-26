@@ -1,7 +1,7 @@
 const { Router } = require("express")
-const todoController = require("../controllers/todos")
+const todoController = require("../controllers/todoController")
 
-const router = new Router()
+const router = Router()
 
 router.get("/todo/list", todoController.getAllTodoLists)
 router.post("/todo/list", todoController.postTodoList)
@@ -11,4 +11,6 @@ router.post("/todo", todoController.postTodo)
 router.get("/todo", todoController.getTodo)
 router.patch("/todo", todoController.patchTodo)
 
+// db.all ?
+// delete list?
 module.exports = router
