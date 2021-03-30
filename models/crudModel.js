@@ -38,9 +38,8 @@ const update = (query, args) => {
 const deleteOne = (query, args) => {
   return new Promise((resolve, reject) => {
     db.run(query, args, function (err) {
-      if (err) return reject(err.message)
-      if (this.changes == 0)
-        return reject({ error: `Todo list with id ${id} not found` })
+      if (err) return reject(err)
+      if (this.changes == 0) return reject(`Nothing to delete`)
       resolve(this.lastID)
     })
   })

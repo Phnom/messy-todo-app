@@ -4,7 +4,7 @@ const app = express()
 const PORT = process.env.PORT || 8080
 
 // Custom routes
-const todoRoutes = require("./routes/todoRoutes")
+const routes = require("./routes")
 
 // Custom Middlewares
 const logger = require("./middleware/logger")
@@ -19,7 +19,8 @@ app.use(logger)
 app.use(headers)
 
 // api endpoints with controllers
-app.use("/api/v1", todoRoutes)
+app.use("/api/v1", routes.todoListsRoutes)
+app.use("/api/v1", routes.todosRoutes)
 
 // Error handler custom middleware
 console.log(errorHandler)

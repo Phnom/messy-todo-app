@@ -1,4 +1,6 @@
-const todoModel = require("../models/todoModel")
+const TodoModel = require("../models-as-classes/todoModel")
+
+const todoModel = new TodoModel()
 
 const getAllTodoLists = async (req, res, next) => {
   try {
@@ -14,7 +16,6 @@ const postTodoList = async (req, res) => {
   if (!(title || color)) {
     return res.status(400).json({ error: "Invalid body" })
   }
-
   try {
     const data = await todoModel.createTodoList(title, color)
     return res.json(data)
